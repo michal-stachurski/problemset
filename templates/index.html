@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+
+{% block head %}
+<title>Problemset</title>
+{% endblock %}
+
+{% block body %}
+<!-- <div class="content"> -->
+  <h1>Problemset</h1>
+  {% if tasks|length < 1 %}
+  <h4>The database is empty. Create new task.</h4>
+  {% else %}
+  <table>
+    <!-- <tr>
+      <td class="bold">SVG</td>
+      <td class="bold">Path</td>
+      <td class="bold">Added</td>
+      <td class="bold">Actions</td>
+    </tr> -->
+    {% for task in tasks %}
+    {% set file_path = 'problemset/' + task.name + '/' + task.name + '.svg' %}
+    <tr>
+      <td>
+        <a href="/{{ task.name }}">
+          <img src="{{ url_for('static', filename=file_path) }}">
+        </a>
+      </td>
+      <!-- <td>{{ task.content }}</td>
+      <td>{{ task.date_created }}</td>
+      <td>
+        <a href="/delete/{{task.id}}">Delete</a>
+        <br>
+        <a href="/update/{{task.id}}">Update</a>
+      </td> -->
+    </tr>
+    {% endfor %}
+  </table>
+  {% endif %}
+  <!-- <form action="/" method="POST"> 
+    <input type="text" name="content" id="content">
+    <input type="submit" value="Add task">
+  </form> -->
+  <!-- <a class="center" href="/upload">Upload new file</a> -->
+  <div class="center" style="margin: 20px;">
+    <a class="center" href="/add">Add new problem</a>
+  </div>
+<!-- </div> -->
+{% endblock %}

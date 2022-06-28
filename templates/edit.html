@@ -1,0 +1,113 @@
+{% extends 'base.html' %}
+
+{% block head %}
+  <title>Add new task manually</title>
+  <style type="text/css">
+    .editor {
+      font-size: 13pt;
+      font-family: monospace;
+      width: 50vw;
+      height: 65vh;
+    }
+    .filed-name {
+      text-align: right;
+      /* font-weight: bold; */
+      padding-right: 10px;
+    }
+    #origin {
+      width: 40%;
+      font-family: monospace;
+      font-size: 13pt;
+    }
+  </style>
+{% endblock %}
+
+{% set tex_template = 'Hello world' %}
+
+{% block body %}
+
+<form action="/{{ task.name }}/edit" method="POST">
+  <table>
+    <tr>
+      <td></td>
+      <td>
+        <h2 class="center">Edit problem</h2>
+      </td>
+    </tr>
+    <tr>
+      <td class="filed-name">Problem:</td>
+      <td>{{ task.name }}</td>
+    </tr>
+    <tr>
+      <td class="filed-name">Origin:</td>
+      <td>
+        <input id="origin" name="origin" type="text" value="{{ task.origin }}">
+      </td>
+    </tr>
+    <tr>
+      <td class="filed-name">Source code:</td>
+      <td>
+        <textarea name="ace-editor" class="editor" data-editor="latex">{{ tex_file }}</textarea>
+        <!-- <div id="editor">{{ content }}</div> -->
+      </td>
+    </tr>
+
+    <tr>
+        <td class="filed-name">Source code:</td>
+        <td>
+          <textarea name="sol-ace-editor" class="editor" data-editor="latex">{{ tex_sol_file }}</textarea>
+          <!-- <div id="editor">{{ content }}</div> -->
+        </td>
+      </tr>
+
+    
+    <!-- <tr>
+      <td class="filed-name">Preview:</td>
+      <td>
+        <img src="{{ url_for('static', filename='svg/stirling.svg') }}">
+      </td>
+    </tr> -->
+
+    <tr>
+      <td colspan="2" style="padding: 10px;">
+        <div class="center">
+          <input class="submit" type="submit" value="Update">
+        </div>
+      </td>
+    </tr>
+  </table>
+</form>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.4.5/ace.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.4.12/ext-language_tools.js"></script>
+
+  <script type="text/javascript">
+    $('textarea[data-editor]').each(function () {
+      var textarea = $(this);
+      // create the editor div
+      var div = $('<div>', {
+        'width': textarea.outerWidth(),
+        'height': textarea.outerHeight(),
+        'class': textarea.attr('class')
+      }).insertBefore(textarea);
+      // hide the original text area
+      textarea.hide();
+      // configure the editor
+      var editor = ace.edit(div[0]);
+      var session = editor.getSession();
+      editor.setTheme('ace/theme/iplastic');
+      session.setValue(textarea.val());
+      session.setMode('ace/mode/latex');
+      session.setNewLineMode('unix');
+      session.setTabSize(4);
+      session.setUseSoftTabs(true);
+      session.setUseWrapMode(true);
+      // update the text area before submitting the form
+      textarea.closest('form').submit(function () {
+        textarea.val(editor.getSession().getValue());
+      });
+    });
+  </script>
+
+{% endblock %}

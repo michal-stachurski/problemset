@@ -1,0 +1,65 @@
+{% extends 'base.html' %}
+
+{% block head %}
+  <title>Problem {{ task.name }}</title>
+  <style>
+    .filed-name {
+      text-align: right;
+      font-weight: bold;
+      padding-right: 10px;
+      width: 0%;
+    }
+  </style>
+{% endblock %}
+
+{% block body %}
+
+  <table>
+    <tr>
+      <td class="filed-name">Problem:</td>
+      <td>{{ task.name }}</td>
+    </tr>
+    
+    <tr>
+      <td class="filed-name">Origin:</td>
+      <td>{{ task.origin }}</td>
+    </tr>
+
+    <tr>
+      <td class="filed-name">Date created:</td>
+      <td>{{ task.date_created.date() }}</td>
+    </tr>
+
+    {% set file_path = 'problemset/' + task.name + '/' + task.name + '.svg' %}
+    <tr>
+      <td colspan="2">
+        <img src="{{ url_for('static', filename=file_path) }}">
+      </td>
+    </tr>
+    
+
+    {% set sol_path = 'problemset/' + task.name + '/' + task.name + '-solution.svg' %}
+    <tr>
+      <td colspan="2">
+        <img src="{{ url_for('static', filename=sol_path) }}">
+      </td>
+    </tr>
+
+    <tr>
+      <td colspan="2" style="padding: 10px;">
+        <div class="center">
+          <form action="/{{ task.name }}/edit">
+            <input class="submit" type="submit" value="Edit">
+            <!-- <a href="">Edit</a> -->
+          </form>
+          
+          <!-- <input class="submit" type="submit" value="Edit"> -->
+          <!-- <br> -->
+          <!-- <a href="/{{ task.name }}/delete">Delete</a> -->
+        </div>
+      </td>
+    </tr>
+
+  </table>
+
+{% endblock %}
