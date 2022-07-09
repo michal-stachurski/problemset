@@ -21,7 +21,7 @@ Then create and activate one
 virtualenv venv
 source venv/bin/activate
 ```
-And lastly install dependecies using `pip`
+And lastly install dependecies inside the `venv`
 ```
-pip install flask flask-sqlalchemy
+(venv) pip install flask flask-sqlalchemy
 ```
